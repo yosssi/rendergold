@@ -11,19 +11,11 @@ type Options struct {
 	// Directory to load templates. Default is "templates"
 	Directory string
 	// Funcs is a slice of FuncMaps to apply to the template upon compilation. This is useful for helper functions. Defaults to [].
-	Funcs []template.FuncMap
+	Func template.FuncMap
 	// Appends the given charset to the Content-Type header. Default is "UTF-8".
 	Charset string
 	// Allows changing of output to XHTML instead of HTML. Default is "text/html"
 	HTMLContentType string
-}
-
-// retrieveFuncMap retrieves a FuncMap from Funcs.
-func (o Options) retrieveFuncMap() template.FuncMap {
-	if len(o.Funcs) < 1 {
-		return nil
-	}
-	return o.Funcs[0]
 }
 
 // retrieveOptions retrieves an options from the array of options

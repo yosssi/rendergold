@@ -16,7 +16,7 @@ func TestRenderJSON(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       defaultDirectory,
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -33,7 +33,7 @@ func TestRenderHTML(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       "test",
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -48,7 +48,7 @@ func TestRenderHTML(t *testing.T) {
 	req, _ = http.NewRequest("GET", "/", nil)
 	opt = Options{
 		Directory:       "test",
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -63,7 +63,7 @@ func TestRenderHTML(t *testing.T) {
 	req, _ = http.NewRequest("GET", "/", nil)
 	opt = Options{
 		Directory:       "test",
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -79,7 +79,7 @@ func TestRenderData(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       defaultDirectory,
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -95,7 +95,7 @@ func TestRenderError(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       defaultDirectory,
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -111,7 +111,7 @@ func TestRenderStatus(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       defaultDirectory,
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -127,7 +127,7 @@ func TestRenderRedirect(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       defaultDirectory,
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -143,7 +143,7 @@ func TestRenderTemplate(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	opt := Options{
 		Directory:       defaultDirectory,
-		Funcs:           []template.FuncMap{},
+		Func:            nil,
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
@@ -157,10 +157,8 @@ func TestRenderTemplate(t *testing.T) {
 func TestRenderer(t *testing.T) {
 	opt := Options{
 		Directory: "test",
-		Funcs: []template.FuncMap{
-			template.FuncMap{
-				"testFunc": func() string { return "test" },
-			},
+		Func: template.FuncMap{
+			"testFunc": func() string { return "test" },
 		},
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,

@@ -82,8 +82,8 @@ func Renderer(options ...Options) martini.Handler {
 	opt := retrieveOptions(options)
 	cache := (martini.Env != martini.Dev)
 	g := gold.NewGenerator(cache).SetBaseDir(opt.Directory)
-	if funcMap := opt.retrieveFuncMap(); funcMap != nil {
-		g.SetHelpers(funcMap)
+	if opt.Func != nil {
+		g.SetHelpers(opt.Func)
 	}
 	return func(res http.ResponseWriter, req *http.Request, c martini.Context) {
 		c.MapTo(&renderer{res, req, opt, compiledCharset(opt), g}, (*render.Render)(nil))
