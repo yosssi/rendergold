@@ -11,24 +11,6 @@ import (
 	"github.com/yosssi/gold"
 )
 
-// Renderer is a Middleware that maps a render.Render service into the Martini handler chain. An single variadic rendergold.Options
-// struct can be optionally provided to configure HTML rendering. The default directory for templates is "templates" and the default
-// file extension is ".gold".
-//
-// If MARTINI_ENV is set to "" or "development" then templates will be parsed every request. For more performance, set the
-// MARTINI_ENV environment variable to "production"
-func Renderer(options ...Options) martini.Handler {
-	opt := retrieveOptions(options)
-	cache := (martini.Env != martini.Dev)
-	g := gold.NewGenerator(cache).SetBaseDir(opt.Directory)
-	if funcMap := opt.retrieveFuncMap(); funcMap != nil {
-		g.SetHelpers(funcMap)
-	}
-	return func(res http.ResponseWriter, req *http.Request, c martini.Context) {
-		c.MapTo(&renderer{res, req, opt, compiledCharset(opt), g}, (*render.Render)(nil))
-	}
-}
-
 // renderer represents a renderer.
 type renderer struct {
 	http.ResponseWriter
@@ -78,6 +60,7 @@ func (r *renderer) Status(status int) {
 
 func (r *renderer) Redirect(location string, status ...int) {
 	code := http.StatusFound
+
 	if len(status) == 1 {
 		code = status[0]
 	}
@@ -87,4 +70,22 @@ func (r *renderer) Redirect(location string, status ...int) {
 
 func (r *renderer) Template() *template.Template {
 	return nil
+}
+
+// Renderer is a Middleware that maps a render.Render service into the Martini handler chain. An single variadic rendergold.Options
+// struct can be optionally provided to configure HTML rendering. The default directory for templates is "templates" and the default
+// file extension is ".gold".
+//
+// If MARTINI_ENV is set to "" or "development" then templates will be parsed every request. For more performance, set the
+// MARTINI_ENV environment variable to "production"
+func Renderer(options ...Options) martini.Handler {
+	opt := retrieveOptions(options)
+	cache := (martini.Env != martini.Dev)
+	g := gold.NewGenerator(cache).SetBaseDir(opt.Directory)
+	if funcMap := opt.retrieveFuncMap(); funcMap != nil {
+		g.SetHelpers(funcMap)
+	}
+	return func(res http.ResponseWriter, req *http.Request, c martini.Context) {
+		c.MapTo(&renderer{res, req, opt, compiledCharset(opt), g}, (*render.Render)(nil))
+	}
 }

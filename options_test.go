@@ -12,7 +12,7 @@ func TestOptionsRetrieveFuncMap(t *testing.T) {
 	opt := Options{}
 	actual := opt.retrieveFuncMap()
 	if actual != nil {
-		t.Errorf("returned value is invalid. [actual: %d][expected: nil]", actual)
+		t.Errorf("returned value is invalid [actual: %d][expected: nil]", actual)
 	}
 
 	// Case when opt.Funcs != nil.
@@ -22,7 +22,7 @@ func TestOptionsRetrieveFuncMap(t *testing.T) {
 	opt = Options{Funcs: []template.FuncMap{expected}}
 	actual = opt.retrieveFuncMap()
 	if actual["testFunc"] == nil {
-		t.Errorf("returned value is invalid. [actual: %+v][expected: %+v]", actual, expected)
+		t.Errorf("returned value is invalid [actual: %+v][expected: %+v]", actual, expected)
 	}
 }
 
@@ -34,7 +34,7 @@ func TestRetrieveOptions(t *testing.T) {
 		len(opt.Funcs) != 0 ||
 		opt.Charset != defaultCharset ||
 		opt.HTMLContentType != render.ContentHTML {
-		t.Errorf("returned value is invalid. [actual: %+v][expected: %+v]",
+		t.Errorf("returned value is invalid [actual: %+v][expected: %+v]",
 			opt,
 			Options{
 				defaultDirectory,
@@ -59,10 +59,9 @@ func TestRetrieveOptions(t *testing.T) {
 		len(actual.Funcs) != len(expected.Funcs) ||
 		actual.Charset != expected.Charset ||
 		actual.HTMLContentType != expected.HTMLContentType {
-		t.Errorf("returned value is invalid. [actual: %+v][expected: %+v]",
+		t.Errorf("returned value is invalid [actual: %+v][expected: %+v]",
 			actual,
 			expected,
 		)
 	}
-
 }

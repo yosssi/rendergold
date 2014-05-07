@@ -11,7 +11,7 @@ func TestCompiledCharset(t *testing.T) {
 	actual := compiledCharset(opt)
 	expected := fmt.Sprintf(baseCompiledCharset, defaultCharset)
 	if actual != expected {
-		t.Errorf("returned value is invalid. [actual: %d][expected: %d]", actual, expected)
+		t.Errorf("returned value is invalid [actual: %d][expected: %d]", actual, expected)
 	}
 
 	// Case when opt.Charset != "".
@@ -20,6 +20,6 @@ func TestCompiledCharset(t *testing.T) {
 	actual = compiledCharset(opt)
 	expected = fmt.Sprintf(baseCompiledCharset, charset)
 	if actual != expected {
-		t.Errorf("returned value is invalid. [actual: %d][expected: %d]", actual, expected)
+		t.Errorf("returned value is invalid [actual: %d][expected: %d]", actual, expected)
 	}
 }
