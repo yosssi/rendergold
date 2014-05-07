@@ -1,12 +1,12 @@
 package rendergold
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"github.com/yosssi/gold"
 )
@@ -165,6 +165,18 @@ func TestRenderer(t *testing.T) {
 		Charset:         defaultCharset,
 		HTMLContentType: render.ContentHTML,
 	}
-	h := Renderer(opt)
-	fmt.Printf("%+v\n", h)
+	Renderer(opt)
+
+	// Test via a Martini context.
+	m := martini.Classic()
+	m.Use(Renderer(opt))
+	m.Get("/", func(r render.Render) {
+		r.HTML(http.StatusOK, "0001", nil)
+	})
+	res := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/", nil)
+	m.ServeHTTP(res, req)
+	if res.Code != http.StatusOK {
+		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
+	}
 }
