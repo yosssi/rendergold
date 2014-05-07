@@ -70,3 +70,7 @@ m.Use(render.Renderer(render.Options{
 }))
 // ...
 ~~~
+
+## Docs
+
+* [GoDoc](https://godoc.org/github.com/yosssi/rendergold)
