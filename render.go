@@ -63,7 +63,7 @@ func Renderer(options ...Options) martini.Handler {
 		// cache parsed results
 		cache = true
 	}
-	g := gold.NewGenerator(cache)
+	g := gold.NewGenerator(cache).SetBaseDir(opt.Directory)
 	return func(res http.ResponseWriter, req *http.Request, c martini.Context) {
 		c.MapTo(&renderer{res, req, opt, cs, g}, (*render.Render)(nil))
 	}
@@ -146,7 +146,7 @@ func (r *renderer) Template() *template.Template {
 }
 
 func (r *renderer) execute(name string, binding interface{}) (*bytes.Buffer, error) {
-	t, err := r.g.ParseFile(r.opt.Directory + "/" + name + ".gold")
+	t, err := r.g.ParseFile(name + ".gold")
 	if err != nil {
 		return nil, err
 	}
