@@ -40,6 +40,11 @@ func retrieveOptions(options []Options) Options {
 		opt.Directory = defaultDirectory
 	}
 
+	// Set a defalut char set to the option.
+	if opt.Charset == "" {
+		opt.Charset = defaultCharset
+	}
+
 	// Set a defalut HTML content type to the option.
 	if opt.HTMLContentType == "" {
 		opt.HTMLContentType = render.ContentHTML

@@ -1,9 +1,10 @@
-// Package rendergold is a middleware for Martini that provides Gold templates parsing and HTML rendering.
+// Package rendergold is a Martini middleware/handler for parsing Gold templates and rendering HTML.
 //
 //  package main
 //
 //  import (
 //    "github.com/go-martini/martini"
+//    "github.com/martini-contrib/render"
 //    "github.com/yosssi/rendergold"
 //  )
 //
@@ -11,12 +12,8 @@
 //    m := martini.Classic()
 //    m.Use(rendergold.Renderer()) // reads "templates" directory by default
 //
-//    m.Get("/html", func(r render.Render) {
+//    m.Get("/", func(r render.Render) {
 //      r.HTML(200, "mytemplate", nil)
-//    })
-//
-//    m.Get("/json", func(r render.Render) {
-//      r.JSON(200, "hello world")
 //    })
 //
 //    m.Run()
