@@ -31,7 +31,7 @@ func main() {
 }
 ```
 
-Here is an example of "templates/top.gold":
+Here is an example of `templates/top.gold`:
 
 ```gold
 doctype html
