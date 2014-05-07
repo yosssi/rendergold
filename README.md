@@ -59,7 +59,6 @@ This template will be convered to the following HTML:
 
 ## Options
 
-### Options
 `rendergold.Renderer` comes with a variety of configuration options:
 
 ~~~ go
