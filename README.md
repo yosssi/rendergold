@@ -63,7 +63,7 @@ This template will be converted to the following HTML:
 ~~~ go
 // ...
 m.Use(render.Renderer(render.Options{
-  Directory: "templates", // Specify what path to load the templates from.
+  Directory: "templates", // Specify what path to load the templates from. Default is "templates".
   Func: template.FuncMap{AppHelpers}, // Specify helper function map for templates to access.
   Charset: "UTF-8", // Sets encoding for html content-types. Default is "UTF-8".
   HTMLContentType: "application/xhtml+xml", // Output XHTML content type instead of default "text/html"
