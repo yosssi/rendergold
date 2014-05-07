@@ -42,7 +42,7 @@ html
     h1 Hello RenderGold!
 ```
 
-This template will be convered to the following HTML:
+This template will be converted to the following HTML:
 
 ```hmtl
 <!DOCTYPE html>
