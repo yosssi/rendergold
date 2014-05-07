@@ -35,7 +35,6 @@ Here is an example of `templates/top.gold`:
 
 ```gold
 doctype html
-
 html
   head
     title RenderGold
