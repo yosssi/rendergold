@@ -58,7 +58,7 @@ func TestRenderHTML(t *testing.T) {
 		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusInternalServerError)
 	}
 
-	// Case when no error occurs.
+	// Case when no error occurs (with no HTMLOptions).
 	res = httptest.NewRecorder()
 	req, _ = http.NewRequest("GET", "/", nil)
 	opt = Options{
@@ -69,6 +69,21 @@ func TestRenderHTML(t *testing.T) {
 	}
 	r = renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
 	r.HTML(http.StatusOK, "0001", nil)
+	if res.Code != http.StatusOK {
+		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
+	}
+
+	// Case when no error occurs (with HTMLOptions).
+	res = httptest.NewRecorder()
+	req, _ = http.NewRequest("GET", "/", nil)
+	opt = Options{
+		Directory:       "test",
+		Func:            nil,
+		Charset:         defaultCharset,
+		HTMLContentType: render.ContentHTML,
+	}
+	r = renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
+	r.HTML(http.StatusOK, "0001", nil, render.HTMLOptions{Layout: "0001" + NameContentDelim + "html"})
 	if res.Code != http.StatusOK {
 		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
 	}
