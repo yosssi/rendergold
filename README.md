@@ -4,11 +4,11 @@ Martini middleware/handler for parsing [Gold](https://github.com/yosssi/gold) te
 
 ## About Gold
 
-[Gold](https://github.com/yosssi/gold) is a template engine for Go. Please visit [its GitHub repository](https://github.com/yosssi/gold) for more details.
+[Gold](http://gold.yoss.si/) is a template engine for Go. Please visit [its GitHub repository](https://github.com/yosssi/gold) for more details.
 
 ## Usage
 
-Here is an example of Server-side Go code:
+Here is an example of server-side Go code:
 
 ```go
 package main
