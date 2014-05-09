@@ -1,4 +1,4 @@
-// Package rendergold is a Martini middleware/handler for parsing Gold templates and rendering HTML.
+// Package rendergold provides a Martini middleware/handler for parsing Gold templates and rendering HTML.
 //
 //  package main
 //
