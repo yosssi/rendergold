@@ -105,6 +105,10 @@ func main() {
 }
 ```
 
+## Sample package using RenderGold
+
+* [yosssi/gold.yoss.si](https://github.com/yosssi/gold.yoss.si)
+
 ## Docs
 
 * [GoDoc](https://godoc.org/github.com/yosssi/rendergold)
