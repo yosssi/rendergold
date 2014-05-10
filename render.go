@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
@@ -26,22 +25,8 @@ func (r *renderer) JSON(status int, v interface{}) {
 }
 
 func (r *renderer) HTML(status int, name string, binding interface{}, htmlOpt ...render.HTMLOptions) {
-	var t *template.Template
-	var err error
+	t, err := r.g.ParseFile(name + gold.Extension)
 
-	if len(htmlOpt) == 0 {
-		// Parse the Gold template and returns an HTML template.
-		t, err = r.g.ParseFile(name + gold.Extension)
-	} else {
-		stringTemplates := map[string]string{}
-		for _, opt := range htmlOpt {
-			if nameContent := strings.SplitN(opt.Layout, NameContentDelim, 2); len(nameContent) == 2 {
-				stringTemplates[nameContent[0]] = nameContent[1]
-			}
-		}
-		// Parse the Gold string templates and returns an HTML template.
-		t, err = r.g.ParseString(stringTemplates, name)
-	}
 	if err != nil {
 		http.Error(r, err.Error(), http.StatusInternalServerError)
 		return
@@ -96,7 +81,7 @@ func (r *renderer) Template() *template.Template {
 func Renderer(options ...Options) martini.Handler {
 	opt := retrieveOptions(options)
 	cache := (martini.Env != martini.Dev)
-	g := gold.NewGenerator(cache).SetBaseDir(opt.Directory)
+	g := gold.NewGenerator(cache).SetBaseDir(opt.Directory).SetAsset(opt.Asset)
 	if opt.Func != nil {
 		g.SetHelpers(opt.Func)
 	}

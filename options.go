@@ -16,6 +16,8 @@ type Options struct {
 	Charset string
 	// Allows changing of output to XHTML instead of HTML. Default is "text/html"
 	HTMLContentType string
+	// Asset loads and returns the asset for the given name.
+	Asset func(string) ([]byte, error)
 }
 
 // retrieveOptions retrieves an options from the array of options

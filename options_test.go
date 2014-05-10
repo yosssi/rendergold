@@ -22,6 +22,7 @@ func TestRetrieveOptions(t *testing.T) {
 				nil,
 				defaultCharset,
 				render.ContentHTML,
+				nil,
 			},
 		)
 	}
@@ -32,6 +33,7 @@ func TestRetrieveOptions(t *testing.T) {
 		template.FuncMap{"testFunc": func() string { return "test" }},
 		"UTF-16",
 		"text/xml",
+		nil,
 	}
 	actual := retrieveOptions([]Options{expected})
 	if actual.Directory != expected.Directory ||
