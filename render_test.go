@@ -89,6 +89,22 @@ func TestRenderHTML(t *testing.T) {
 	}
 }
 
+func TestRenderXML(t *testing.T) {
+	res := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/", nil)
+	opt := Options{
+		Directory:       defaultDirectory,
+		Func:            nil,
+		Charset:         defaultCharset,
+		HTMLContentType: render.ContentHTML,
+	}
+	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
+	r.XML(http.StatusOK, nil)
+	if res.Code != http.StatusOK {
+		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
+	}
+}
+
 func TestRenderData(t *testing.T) {
 	res := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
