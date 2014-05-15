@@ -46,6 +46,10 @@ func (r *renderer) HTML(status int, name string, binding interface{}, htmlOpt ..
 	io.Copy(r, buf)
 }
 
+func (r *renderer) XML(status int, v interface{}) {
+	r.WriteHeader(status)
+}
+
 func (r *renderer) Data(status int, v []byte) {
 	r.WriteHeader(status)
 }
