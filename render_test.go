@@ -11,22 +11,6 @@ import (
 	"github.com/yosssi/gold"
 )
 
-func TestRenderJSON(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	opt := Options{
-		Directory:       defaultDirectory,
-		Func:            nil,
-		Charset:         defaultCharset,
-		HTMLContentType: render.ContentHTML,
-	}
-	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
-	r.JSON(http.StatusOK, nil)
-	if res.Code != http.StatusOK {
-		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
-	}
-}
-
 func TestRenderHTML(t *testing.T) {
 	// Case when r.g.ParseFile returns an error.
 	res := httptest.NewRecorder()
@@ -89,70 +73,6 @@ func TestRenderHTML(t *testing.T) {
 	}
 }
 
-func TestRenderXML(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	opt := Options{
-		Directory:       defaultDirectory,
-		Func:            nil,
-		Charset:         defaultCharset,
-		HTMLContentType: render.ContentHTML,
-	}
-	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
-	r.XML(http.StatusOK, nil)
-	if res.Code != http.StatusOK {
-		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
-	}
-}
-
-func TestRenderData(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	opt := Options{
-		Directory:       defaultDirectory,
-		Func:            nil,
-		Charset:         defaultCharset,
-		HTMLContentType: render.ContentHTML,
-	}
-	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
-	r.Data(http.StatusOK, nil)
-	if res.Code != http.StatusOK {
-		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
-	}
-}
-
-func TestRenderError(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	opt := Options{
-		Directory:       defaultDirectory,
-		Func:            nil,
-		Charset:         defaultCharset,
-		HTMLContentType: render.ContentHTML,
-	}
-	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
-	r.Error(http.StatusInternalServerError)
-	if res.Code != http.StatusInternalServerError {
-		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusInternalServerError)
-	}
-}
-
-func TestRenderStatus(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	opt := Options{
-		Directory:       defaultDirectory,
-		Func:            nil,
-		Charset:         defaultCharset,
-		HTMLContentType: render.ContentHTML,
-	}
-	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
-	r.Status(http.StatusOK)
-	if res.Code != http.StatusOK {
-		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusOK)
-	}
-}
-
 func TestRenderRedirect(t *testing.T) {
 	res := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
@@ -166,22 +86,6 @@ func TestRenderRedirect(t *testing.T) {
 	r.Redirect("https://github.com", http.StatusMovedPermanently)
 	if res.Code != http.StatusMovedPermanently {
 		t.Errorf("invalid HTTP status code [actual: %d][expected: %d]", res.Code, http.StatusMovedPermanently)
-	}
-}
-
-func TestRenderTemplate(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	opt := Options{
-		Directory:       defaultDirectory,
-		Func:            nil,
-		Charset:         defaultCharset,
-		HTMLContentType: render.ContentHTML,
-	}
-	r := renderer{res, req, opt, compiledCharset(opt), gold.NewGenerator(false).SetBaseDir(opt.Directory)}
-	tpl := r.Template()
-	if tpl != nil {
-		t.Errorf("returned value should be nil [actual: %+v]", tpl)
 	}
 }
 
@@ -199,7 +103,7 @@ func TestRenderer(t *testing.T) {
 	// Test via a Martini context.
 	m := martini.Classic()
 	m.Use(Renderer(opt))
-	m.Get("/", func(r render.Render) {
+	m.Get("/", func(r Render) {
 		r.HTML(http.StatusOK, "0001", nil)
 	})
 	res := httptest.NewRecorder()
