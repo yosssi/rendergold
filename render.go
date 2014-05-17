@@ -2,7 +2,6 @@ package rendergold
 
 import (
 	"bytes"
-	"html/template"
 	"io"
 	"net/http"
 
@@ -11,6 +10,15 @@ import (
 	"github.com/yosssi/gold"
 )
 
+// Render is a service that can be injected into a Martini handler. Render provides functions for easily writing
+// HTML templates out to a http Response.
+type Render interface {
+	// HTML renders a html template specified by the name and writes the result and given status to the http.ResponseWriter.
+	HTML(status int, name string, v interface{}, htmlOpt ...render.HTMLOptions)
+	// Redirect redirects the request.
+	Redirect(location string, status ...int)
+}
+
 // renderer represents a renderer.
 type renderer struct {
 	http.ResponseWriter
@@ -18,10 +26,6 @@ type renderer struct {
 	opt             Options
 	compiledCharset string
 	g               *gold.Generator
-}
-
-func (r *renderer) JSON(status int, v interface{}) {
-	r.WriteHeader(status)
 }
 
 func (r *renderer) HTML(status int, name string, binding interface{}, htmlOpt ...render.HTMLOptions) {
@@ -46,22 +50,6 @@ func (r *renderer) HTML(status int, name string, binding interface{}, htmlOpt ..
 	io.Copy(r, buf)
 }
 
-func (r *renderer) XML(status int, v interface{}) {
-	r.WriteHeader(status)
-}
-
-func (r *renderer) Data(status int, v []byte) {
-	r.WriteHeader(status)
-}
-
-func (r *renderer) Error(status int) {
-	r.WriteHeader(status)
-}
-
-func (r *renderer) Status(status int) {
-	r.WriteHeader(status)
-}
-
 func (r *renderer) Redirect(location string, status ...int) {
 	code := http.StatusFound
 
@@ -70,10 +58,6 @@ func (r *renderer) Redirect(location string, status ...int) {
 	}
 
 	http.Redirect(r, r.req, location, code)
-}
-
-func (r *renderer) Template() *template.Template {
-	return nil
 }
 
 // Renderer is a Middleware that maps a render.Render service into the Martini handler chain. An single variadic rendergold.Options
@@ -90,6 +74,6 @@ func Renderer(options ...Options) martini.Handler {
 		g.SetHelpers(opt.Func)
 	}
 	return func(res http.ResponseWriter, req *http.Request, c martini.Context) {
-		c.MapTo(&renderer{res, req, opt, compiledCharset(opt), g}, (*render.Render)(nil))
+		c.MapTo(&renderer{res, req, opt, compiledCharset(opt), g}, (*Render)(nil))
 	}
 }
