@@ -4,7 +4,6 @@
 //
 //  import (
 //    "github.com/go-martini/martini"
-//    "github.com/martini-contrib/render"
 //    "github.com/yosssi/rendergold"
 //  )
 //
@@ -12,7 +11,7 @@
 //    m := martini.Classic()
 //    m.Use(rendergold.Renderer()) // reads "templates" directory by default
 //
-//    m.Get("/", func(r render.Render) {
+//    m.Get("/", func(r rendergold.Render) {
 //      r.HTML(200, "mytemplate", nil)
 //    })
 //
